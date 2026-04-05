@@ -25,20 +25,22 @@ Plans are the project's GPS indicator for active and upcoming work. When complet
 
 ## Current Focus
 
-- Define Safari Reading List feature scope and MCP tool contracts.
-- Implement first usable MCP server skeleton in Python.
-- Document architecture and platform constraints for macOS Safari integration.
+- Execute Plan 001 for Feature 001: Safari Reading List JSON export via MCP.
+- Implement first usable MCP server skeleton in Python with `export_reading_list` tool.
+- Validate Safari Reading List source handling and timestamp filtering behavior on macOS.
 
 ## Next Steps
 
-- Create first feature spec in `docs/features/` for reading list read/export/add operations.
-- Create first implementation plan file (`001-...`) and begin execution.
-- Decide and document Safari integration approach (`osascript` wrapper vs other mechanisms).
+- Move `docs/plans/001-implement-reading-list-export.md` to `IN PROGRESS` and begin Phase 1 implementation.
+- Decide and document concrete Safari integration approach (Bookmarks.plist adapter now, AppleScript fallback/alternative later).
+- Draft a design note for MCP server/module layout once implementation structure is finalized.
 
 ## Recent Work
 
 - Repository scaffold initialized with Python 3.14, uv, and `mcp` dependency.
 - Agentic development structure established (`AGENTS.md`, docs scheme, prompt library).
+- Feature spec created: `docs/features/001-export-safari-reading-list.md`.
+- Plan created: `docs/plans/001-implement-reading-list-export.md`.
 
 ## Key References
 
