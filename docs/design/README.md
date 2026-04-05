@@ -27,3 +27,7 @@ Write one when:
 - Include diagrams when they add clarity.
 - Update docs as design changes over time.
 - Cross-link related feature specs, plans, and ADRs.
+
+## Current Design Docs
+
+- `001-reading-list-export-architecture.md` - architecture and module layout for Feature 001 implementation.

@@ -1,6 +1,6 @@
 # 001 - Export Safari Reading List
 
-Status: PROPOSED
+Status: IN PROGRESS
 Owner: Maintainers
 Last Updated: 2026-04-05
 
@@ -138,6 +138,12 @@ Automated checks (initial target):
 - Unit test export serialization schema stability.
 - Adapter-level tests with fixture data for full and range filtering behavior.
 - Contract test for MCP tool response shape.
+
+Execution notes (2026-04-05):
+
+- Automated test suite implemented and passing (`15` pytest tests).
+- Local macOS verification reached real Safari bookmarks access path but was blocked by OS permissions (`Permission denied` on `~/Library/Safari/Bookmarks.plist`).
+- Error path now returns actionable guidance for Full Disk Access configuration.
 
 ## Risks and Open Questions
 

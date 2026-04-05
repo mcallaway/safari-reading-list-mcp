@@ -92,3 +92,16 @@ The project currently contains only a scaffold (`main.py`) and documentation wor
 
 - Feature 001 acceptance criteria are met and demonstrable.
 - Plan status can be moved from `PROPOSED` to `IN PROGRESS` at implementation start, then to `COMPLETE` when verification and docs sync are done.
+
+## Progress Notes (2026-04-05)
+
+- Phase 1 complete: MCP server skeleton and `export_reading_list` tool implemented.
+- Phase 2 complete: Safari bookmarks plist adapter implemented with Reading List extraction.
+- Phase 3 complete: JSON export and filtering modes implemented (default week, explicit range, full export).
+- Phase 4 complete: validation and actionable error handling implemented, including permission guidance.
+- Phase 5 partially complete: automated tests and docs sync completed.
+
+## Remaining Work
+
+- Execute successful manual export on real Safari dataset after granting Full Disk Access to terminal/MCP host.
+- If manual verification succeeds, move plan status to `COMPLETE` and close plan.
