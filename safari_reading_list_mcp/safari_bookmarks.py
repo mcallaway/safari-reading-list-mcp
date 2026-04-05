@@ -12,8 +12,14 @@ def load_bookmarks_root(path: Path) -> dict[str, Any]:
     if not path.exists():
         raise FileNotFoundError(f"Safari bookmarks file not found: {path}")
 
-    with path.open("rb") as file:
-        loaded = plistlib.load(file)
+    try:
+        with path.open("rb") as file:
+            loaded = plistlib.load(file)
+    except PermissionError as exc:
+        raise PermissionError(
+            "Permission denied reading Safari bookmarks plist. "
+            "Grant Terminal or your MCP host Full Disk Access in macOS Privacy settings."
+        ) from exc
 
     if not isinstance(loaded, dict):
         raise ValueError("Safari bookmarks plist has an unexpected structure.")

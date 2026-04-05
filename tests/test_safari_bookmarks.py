@@ -3,7 +3,10 @@ from datetime import UTC, datetime
 import plistlib
 import pytest
 
-from safari_reading_list_mcp.safari_bookmarks import read_reading_list_items
+from safari_reading_list_mcp.safari_bookmarks import (
+    load_bookmarks_root,
+    read_reading_list_items,
+)
 
 
 def test_read_reading_list_items_from_plist(tmp_path) -> None:
@@ -45,3 +48,16 @@ def test_read_reading_list_items_raises_when_missing_container(tmp_path) -> None
 
     with pytest.raises(ValueError):
         read_reading_list_items(plist_path)
+
+
+def test_load_bookmarks_root_permission_error_is_actionable(tmp_path, monkeypatch) -> None:
+    plist_path = tmp_path / "Bookmarks.plist"
+    plist_path.write_bytes(b"not-used")
+
+    def _boom(*_args, **_kwargs):
+        raise PermissionError("denied")
+
+    monkeypatch.setattr(type(plist_path), "open", _boom)
+
+    with pytest.raises(PermissionError, match="Full Disk Access"):
+        load_bookmarks_root(plist_path)
