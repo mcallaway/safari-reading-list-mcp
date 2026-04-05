@@ -1,0 +1,8 @@
+[tools]
+python = "3.14"
+
+[settings]
+python_venv_auto_create = true
+
+[env]
+_.python.venv = { path = ".venv", create = true }
