@@ -1,6 +1,6 @@
 # 001 - Export Safari Reading List
 
-Status: IN PROGRESS
+Status: COMPLETE
 Owner: Maintainers
 Last Updated: 2026-04-05
 
@@ -65,13 +65,13 @@ Out of scope:
 
 ## Acceptance Criteria
 
-- [ ] MCP client can request full reading list export and receive success response with output path and count.
-- [ ] Export file is created and parseable JSON.
-- [ ] MCP client can request range-limited export using RFC 3339 timestamps.
-- [ ] If range is omitted, export defaults to last 7 days and reports the effective range used.
-- [ ] Invalid range (`start > end`) returns validation error.
-- [ ] If date filtering is requested but unsupported by available Safari metadata, response is explicit and non-ambiguous.
-- [ ] At least one integration verification is documented for a real macOS Safari environment.
+- [x] MCP client can request full reading list export and receive success response with output path and count.
+- [x] Export file is created and parseable JSON.
+- [x] MCP client can request range-limited export using RFC 3339 timestamps.
+- [x] If range is omitted, export defaults to last 7 days and reports the effective range used.
+- [x] Invalid range (`start > end`) returns validation error.
+- [x] If date filtering is requested but unsupported by available Safari metadata, response is explicit and non-ambiguous.
+- [x] At least one integration verification is documented for a real macOS Safari environment.
 
 ## Interface Draft (subject to refinement)
 
@@ -142,8 +142,16 @@ Automated checks (initial target):
 Execution notes (2026-04-05):
 
 - Automated test suite implemented and passing (`15` pytest tests).
-- Local macOS verification reached real Safari bookmarks access path but was blocked by OS permissions (`Permission denied` on `~/Library/Safari/Bookmarks.plist`).
-- Error path now returns actionable guidance for Full Disk Access configuration.
+- Real local verification completed after granting Full Disk Access.
+- Successful exports were executed for:
+  - default week range,
+  - explicit full export,
+  - explicit custom range.
+- Observed local dataset counts during verification:
+  - total entries: `990`,
+  - default-week export: `22`,
+  - custom-range export (`2026-03-01` to `2026-04-05`): `33`.
+- Error path for missing permissions remains actionable and tested.
 
 ## Risks and Open Questions
 

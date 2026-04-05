@@ -25,14 +25,14 @@ Plans are the project's GPS indicator for active and upcoming work. When complet
 
 ## Current Focus
 
-- Finish final manual verification for Plan 001 after granting Safari bookmarks access permissions.
-- Close Plan 001 once successful local export verification is captured.
+- Define next feature set (for example, add Reading List items via MCP).
+- Decide whether Safari integration should expand beyond plist reading in the next increment.
 
 ## Next Steps
 
-- Grant Full Disk Access for terminal/MCP host and re-run local export against Safari dataset.
-- If verification succeeds, mark Feature 001 and Plan 001 `COMPLETE`.
-- Decide whether to add AppleScript fallback as follow-up feature work.
+- Create Feature 002 proposal for writing/adding Reading List entries.
+- Create Plan 002 with phased implementation for add-item workflow.
+- Evaluate ADR need for long-term Safari integration strategy (plist-only vs multi-adapter).
 
 ## Recent Work
 
@@ -43,6 +43,7 @@ Plans are the project's GPS indicator for active and upcoming work. When complet
 - Plan 001 started (`IN PROGRESS`).
 - Core implementation shipped with pytest coverage (`15` tests passing).
 - Design note added: `docs/design/001-reading-list-export-architecture.md`.
+- Plan 001 completed with successful real local Safari export verification.
 
 ## Key References
 

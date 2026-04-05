@@ -1,6 +1,6 @@
 # 001 - Implement Reading List Export
 
-Status: IN PROGRESS
+Status: COMPLETE
 Created: 2026-04-05
 Updated: 2026-04-05
 Related Feature: `docs/features/001-export-safari-reading-list.md`
@@ -99,9 +99,8 @@ The project currently contains only a scaffold (`main.py`) and documentation wor
 - Phase 2 complete: Safari bookmarks plist adapter implemented with Reading List extraction.
 - Phase 3 complete: JSON export and filtering modes implemented (default week, explicit range, full export).
 - Phase 4 complete: validation and actionable error handling implemented, including permission guidance.
-- Phase 5 partially complete: automated tests and docs sync completed.
+- Phase 5 complete: automated tests, docs sync, and real local manual verification completed.
 
 ## Remaining Work
 
-- Execute successful manual export on real Safari dataset after granting Full Disk Access to terminal/MCP host.
-- If manual verification succeeds, move plan status to `COMPLETE` and close plan.
+- None for Plan 001. Follow-up enhancements should be tracked as new feature(s)/plan(s).
