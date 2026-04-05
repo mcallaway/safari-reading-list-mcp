@@ -31,7 +31,7 @@ Plans are the project's GPS indicator for active and upcoming work. When complet
 
 ## Next Steps
 
-- Move `docs/plans/001-implement-reading-list-export.md` to `IN PROGRESS` and begin Phase 1 implementation.
+- Complete Phase 1 implementation tasks for `docs/plans/001-implement-reading-list-export.md`.
 - Decide and document concrete Safari integration approach (Bookmarks.plist adapter now, AppleScript fallback/alternative later).
 - Draft a design note for MCP server/module layout once implementation structure is finalized.
 
@@ -41,6 +41,7 @@ Plans are the project's GPS indicator for active and upcoming work. When complet
 - Agentic development structure established (`AGENTS.md`, docs scheme, prompt library).
 - Feature spec created: `docs/features/001-export-safari-reading-list.md`.
 - Plan created: `docs/plans/001-implement-reading-list-export.md`.
+- Plan 001 started (`IN PROGRESS`).
 
 ## Key References
 

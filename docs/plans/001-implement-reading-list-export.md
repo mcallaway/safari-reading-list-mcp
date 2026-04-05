@@ -1,6 +1,6 @@
 # 001 - Implement Reading List Export
 
-Status: PROPOSED
+Status: IN PROGRESS
 Created: 2026-04-05
 Updated: 2026-04-05
 Related Feature: `docs/features/001-export-safari-reading-list.md`
