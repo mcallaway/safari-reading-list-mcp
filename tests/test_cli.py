@@ -23,6 +23,7 @@ def test_cli_export_week_invokes_service(monkeypatch) -> None:
     result = runner.invoke(cli.main, ["export", "week", "--output", "week.json"])
 
     assert result.exit_code == 0
+    assert result.output == ""
     assert captured["output_path"] == "week.json"
     assert captured.get("full_export") is None
 
@@ -47,6 +48,7 @@ def test_cli_export_all_invokes_full_export(monkeypatch) -> None:
     result = runner.invoke(cli.main, ["export", "all", "--output", "all.json"])
 
     assert result.exit_code == 0
+    assert result.output == ""
     assert captured["full_export"] is True
 
 
@@ -85,8 +87,52 @@ def test_cli_export_range_passes_start_and_end(monkeypatch) -> None:
     )
 
     assert result.exit_code == 0
+    assert result.output == ""
     assert captured["start_time"] == "2026-03-01T00:00:00Z"
     assert captured["end_time"] == "2026-03-31T23:59:59Z"
+
+
+def test_cli_logs_warnings_to_stderr(monkeypatch) -> None:
+    def fake_export_reading_list(**kwargs):
+        return {
+            "success": True,
+            "output_path": kwargs["output_path"],
+            "exported_count": 1,
+            "total_count": 2,
+            "filters_applied": {"default_range": True},
+            "warnings": ["missing timestamp on one entry"],
+        }
+
+    monkeypatch.setattr(cli, "export_reading_list", fake_export_reading_list)
+
+    runner = CliRunner()
+    result = runner.invoke(cli.main, ["export", "week", "--output", "week.json"])
+
+    assert result.exit_code == 0
+    assert "missing timestamp on one entry" in result.output
+
+
+def test_cli_supports_debug_log_level(monkeypatch) -> None:
+    def fake_export_reading_list(**kwargs):
+        return {
+            "success": True,
+            "output_path": kwargs["output_path"],
+            "exported_count": 1,
+            "total_count": 1,
+            "filters_applied": {"default_range": True},
+            "warnings": [],
+        }
+
+    monkeypatch.setattr(cli, "export_reading_list", fake_export_reading_list)
+
+    runner = CliRunner()
+    result = runner.invoke(
+        cli.main,
+        ["--log-level", "DEBUG", "export", "week", "--output", "week.json"],
+    )
+
+    assert result.exit_code == 0
+    assert "exported_count" in result.output
 
 
 def test_cli_serve_passes_transport(monkeypatch) -> None:

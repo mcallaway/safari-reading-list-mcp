@@ -1,16 +1,34 @@
 from __future__ import annotations
 
-import json
+import logging
 
 import click
 
 from .server import mcp
 from .service import export_reading_list
 
+logger = logging.getLogger(__name__)
+
+
+def _configure_logging(log_level: str) -> None:
+    logging.basicConfig(
+        level=getattr(logging, log_level.upper(), logging.WARNING),
+        format="%(levelname)s %(name)s: %(message)s",
+        force=True,
+    )
+
 
 @click.group()
-def main() -> None:
+@click.option(
+    "--log-level",
+    type=click.Choice(["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"], case_sensitive=False),
+    default="WARNING",
+    show_default=True,
+    help="Set logging verbosity for human-readable messages (stderr).",
+)
+def main(log_level: str) -> None:
     """Safari Reading List MCP utility CLI."""
+    _configure_logging(log_level)
 
 
 @main.group("export")
@@ -18,15 +36,26 @@ def export_group() -> None:
     """Export Safari Reading List entries to JSON."""
 
 
-def _render_export_result(result: dict[str, object]) -> None:
-    click.echo(f"success: {result['success']}")
-    click.echo(f"output_path: {result['output_path']}")
-    click.echo(f"exported_count: {result['exported_count']}")
-    click.echo(f"total_count: {result['total_count']}")
-    click.echo(f"filters_applied: {json.dumps(result['filters_applied'])}")
+def _log_export_result(result: dict[str, object]) -> None:
+    logger.info("success=%s", result["success"])
+    logger.info("output_path=%s", result["output_path"])
+    logger.info("exported_count=%s", result["exported_count"])
+    logger.info("total_count=%s", result["total_count"])
+    logger.debug("filters_applied=%s", result["filters_applied"])
     warnings = result.get("warnings", [])
     if warnings:
-        click.echo(f"warnings: {json.dumps(warnings)}")
+        for warning in warnings:
+            logger.warning("%s", warning)
+
+
+def _run_export(**kwargs: object) -> None:
+    try:
+        result = export_reading_list(**kwargs)
+    except Exception as exc:  # noqa: BLE001
+        logger.error("Export failed: %s", exc)
+        raise click.ClickException(str(exc)) from exc
+
+    _log_export_result(result)
 
 
 @export_group.command("week")
@@ -38,11 +67,10 @@ def _render_export_result(result: dict[str, object]) -> None:
 )
 def export_week(output_path: str, bookmarks_path: str | None) -> None:
     """Export entries from the past 7 days (default behavior)."""
-    result = export_reading_list(
+    _run_export(
         output_path=output_path,
         bookmarks_path=bookmarks_path,
     )
-    _render_export_result(result)
 
 
 @export_group.command("range")
@@ -61,13 +89,12 @@ def export_range(
     bookmarks_path: str | None,
 ) -> None:
     """Export entries for an explicit inclusive time range."""
-    result = export_reading_list(
+    _run_export(
         output_path=output_path,
         start_time=start_time,
         end_time=end_time,
         bookmarks_path=bookmarks_path,
     )
-    _render_export_result(result)
 
 
 @export_group.command("all")
@@ -79,12 +106,11 @@ def export_range(
 )
 def export_all(output_path: str, bookmarks_path: str | None) -> None:
     """Export all Reading List entries."""
-    result = export_reading_list(
+    _run_export(
         output_path=output_path,
         full_export=True,
         bookmarks_path=bookmarks_path,
     )
-    _render_export_result(result)
 
 
 @main.command("serve")
@@ -97,4 +123,5 @@ def export_all(output_path: str, bookmarks_path: str | None) -> None:
 )
 def serve(transport: str) -> None:
     """Run the MCP server."""
+    logger.warning("Starting MCP server with transport=%s", transport)
     mcp.run(transport=transport)
