@@ -48,7 +48,7 @@ def test_export_reading_list_defaults_to_last_week(tmp_path) -> None:
     assert result["success"] is True
     assert result["total_count"] == 2
     assert result["exported_count"] == 1
-    assert result["filters_applied"]["default_range"] is True
+    assert result["filters_applied"].get("default_range") is True
     assert output.exists()
 
 

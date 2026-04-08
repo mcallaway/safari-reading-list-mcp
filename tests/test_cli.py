@@ -25,7 +25,7 @@ def test_cli_export_week_invokes_service(monkeypatch) -> None:
     assert result.exit_code == 0
     assert result.output == ""
     assert captured["output_path"] == "week.json"
-    assert captured.get("full_export") is None
+    assert captured.get("full_export") is False
 
 
 def test_cli_export_all_invokes_full_export(monkeypatch) -> None:

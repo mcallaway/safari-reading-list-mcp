@@ -36,6 +36,8 @@ def test_resolve_effective_range_defaults_to_week() -> None:
     )
     assert defaulted is True
     assert end == now
+    assert start is not None
+    assert end is not None
     assert (end - start).days == 7
 
 
