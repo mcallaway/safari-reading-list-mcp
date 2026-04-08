@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import logging
+from typing import Literal
 
 import click
 
 from .server import mcp
-from .service import export_reading_list
+from .service import ExportResult, export_reading_list
 
 logger = logging.getLogger(__name__)
 
@@ -36,21 +37,32 @@ def export_group() -> None:
     """Export Safari Reading List entries to JSON."""
 
 
-def _log_export_result(result: dict[str, object]) -> None:
+def _log_export_result(result: ExportResult) -> None:
     logger.info("success=%s", result["success"])
     logger.info("output_path=%s", result["output_path"])
     logger.info("exported_count=%s", result["exported_count"])
     logger.info("total_count=%s", result["total_count"])
     logger.debug("filters_applied=%s", result["filters_applied"])
-    warnings = result.get("warnings", [])
-    if warnings:
-        for warning in warnings:
-            logger.warning("%s", warning)
+    for warning in result["warnings"]:
+        logger.warning("%s", warning)
 
 
-def _run_export(**kwargs: object) -> None:
+def _run_export(
+    *,
+    output_path: str,
+    start_time: str | None = None,
+    end_time: str | None = None,
+    full_export: bool = False,
+    bookmarks_path: str | None = None,
+) -> None:
     try:
-        result = export_reading_list(**kwargs)
+        result = export_reading_list(
+            output_path=output_path,
+            start_time=start_time,
+            end_time=end_time,
+            full_export=full_export,
+            bookmarks_path=bookmarks_path,
+        )
     except Exception as exc:  # noqa: BLE001
         logger.error("Export failed: %s", exc)
         raise click.ClickException(str(exc)) from exc
@@ -124,4 +136,12 @@ def export_all(output_path: str, bookmarks_path: str | None) -> None:
 def serve(transport: str) -> None:
     """Run the MCP server."""
     logger.warning("Starting MCP server with transport=%s", transport)
-    mcp.run(transport=transport)
+    typed_transport: Literal["stdio", "sse", "streamable-http"]
+    if transport == "stdio":
+        typed_transport = "stdio"
+    elif transport == "sse":
+        typed_transport = "sse"
+    else:
+        typed_transport = "streamable-http"
+
+    mcp.run(transport=typed_transport)

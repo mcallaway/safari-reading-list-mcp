@@ -2,12 +2,30 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import TypedDict
 
 from .exporter import export_to_json, filter_items_by_range
 from .safari_bookmarks import read_reading_list_items
 from .time_utils import resolve_effective_range
 
 DEFAULT_BOOKMARKS_PATH = Path("~/Library/Safari/Bookmarks.plist").expanduser()
+
+
+class ExportFilters(TypedDict, total=False):
+    full_export: bool
+    start_time: str
+    end_time: str
+    default_range: bool
+
+
+class ExportResult(TypedDict):
+    success: bool
+    output_path: str
+    exported_count: int
+    total_count: int
+    filters_applied: ExportFilters
+    warnings: list[str]
+    error: str | None
 
 
 def export_reading_list(
@@ -18,7 +36,7 @@ def export_reading_list(
     full_export: bool = False,
     bookmarks_path: str | None = None,
     now: datetime | None = None,
-) -> dict[str, object]:
+) -> ExportResult:
     now_value = now or datetime.now(tz=UTC)
     bookmarks = Path(bookmarks_path).expanduser() if bookmarks_path else DEFAULT_BOOKMARKS_PATH
     output = Path(output_path).expanduser()
@@ -36,7 +54,7 @@ def export_reading_list(
     warnings: list[str] = []
     if full_export:
         exported_items = items
-        filters_applied: dict[str, object] = {"full_export": True}
+        filters_applied: ExportFilters = {"full_export": True}
     else:
         assert effective_start is not None and effective_end is not None
         exported_items, range_warnings = filter_items_by_range(items, effective_start, effective_end)
@@ -56,4 +74,5 @@ def export_reading_list(
         "total_count": total_count,
         "filters_applied": filters_applied,
         "warnings": warnings,
+        "error": None,
     }

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from mcp.server.fastmcp import FastMCP
 
-from .service import export_reading_list
+from .service import ExportResult, export_reading_list
 
 mcp = FastMCP("safari-reading-list-mcp")
 
@@ -19,7 +19,7 @@ def export_reading_list_tool(
     start_time: str | None = None,
     end_time: str | None = None,
     full_export: bool = False,
-) -> dict[str, object]:
+) -> ExportResult:
     try:
         return export_reading_list(
             output_path=output_path,
