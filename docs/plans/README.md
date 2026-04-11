@@ -25,7 +25,7 @@ Plans are the project's GPS indicator for active and upcoming work. When complet
 
 ## Current Focus
 
-- Define next feature set (for example, add Reading List items via MCP).
+- Define Feature 002 scope (for example, adding Reading List entries via MCP).
 - Decide whether Safari integration should expand beyond plist reading in the next increment.
 
 ## Next Steps
@@ -36,14 +36,13 @@ Plans are the project's GPS indicator for active and upcoming work. When complet
 
 ## Recent Work
 
-- Repository scaffold initialized with Python 3.14, uv, and `mcp` dependency.
-- Agentic development structure established (`AGENTS.md`, docs scheme, prompt library).
-- Feature spec created: `docs/features/001-export-safari-reading-list.md`.
-- Plan created: `docs/plans/001-implement-reading-list-export.md`.
-- Plan 001 started (`IN PROGRESS`).
-- Core implementation shipped with pytest coverage (`15` tests passing).
-- Design note added: `docs/design/001-reading-list-export-architecture.md`.
-- Plan 001 completed with successful real local Safari export verification.
+- Feature 001 completed: Safari Reading List export (full, default week, custom range).
+- Plan 001 completed and verified against real local Safari data.
+- CLI shipped with `srl export` and `srl serve` commands.
+- Logging behavior aligned for pipelines (human-readable logs to stderr, JSON output clean on stdout).
+- Typing baseline strengthened with pyright-compatible annotations and TypedDict response shapes.
+- Mise task set added and normalized (`test:lint`, `test:types`, `test:unit`, `test:coverage`, `test:all`).
+- Current automated baseline: 21 pytest tests passing with lint and type checks passing.
 
 ## Key References
 

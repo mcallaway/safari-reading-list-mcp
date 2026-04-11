@@ -2,13 +2,14 @@
 
 An Anthropic MCP server project for Apple Safari Reading List workflows on macOS.
 
-This repository is currently in scaffold stage: Python runtime and MCP dependency are in place, with a documentation-first, agentic development workflow now established.
+This repository now provides a working MCP server and CLI for exporting Safari Reading List data to JSON.
 
 ## Project Status
 
-- Runtime scaffold exists (`main.py`).
-- MCP integration and Safari Reading List functionality are planned.
-- Documentation, planning, and prompt workflows are established under `docs/` and `.github/prompts/`.
+- Feature 001 is complete: export Safari Reading List entries (all, default week, custom range).
+- MCP server entrypoint is active via `main.py` and `safari_reading_list_mcp/server.py`.
+- CLI entrypoint `srl` is available with export and serve commands.
+- Quality checks are automated with mise tasks for lint, type checks, and tests.
 
 ## Goals
 
@@ -27,14 +28,20 @@ This repository is currently in scaffold stage: Python runtime and MCP dependenc
 
 1. Install dependencies:
    - `uv sync`
-2. Run current entrypoint:
+2. Run MCP server (stdio transport):
    - `uv run python main.py`
+3. Use CLI:
+   - `srl --help`
+4. Run all checks:
+   - `mise run test:all`
 
 ## Repository Layout
 
-- `main.py` - runtime entrypoint (currently placeholder behavior)
+- `main.py` - runtime entrypoint that starts the MCP server
+- `safari_reading_list_mcp/` - implementation modules (server, service, adapter, time/filter/export helpers, CLI)
 - `pyproject.toml` - project metadata and dependencies
 - `mise.toml` - local tool/runtime configuration
+- `.mise/tasks/` - reusable project tasks (lint, types, unit, coverage)
 - `AGENTS.md` - primary agent/human collaboration conventions
 - `docs/` - project memory (plans, features, design, decisions, guides)
 - `.github/prompts/` - reusable workflow prompts for agent sessions

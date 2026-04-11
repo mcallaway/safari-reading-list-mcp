@@ -60,4 +60,4 @@ So that <benefit>
 
 | ID  | Title                      | Status   | File                                              |
 | --- | -------------------------- | -------- | ------------------------------------------------- |
-| 001 | Export Safari Reading List | PROPOSED | `docs/features/001-export-safari-reading-list.md` |
+| 001 | Export Safari Reading List | COMPLETE | `docs/features/001-export-safari-reading-list.md` |
