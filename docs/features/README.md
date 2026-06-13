@@ -61,4 +61,4 @@ So that <benefit>
 | ID  | Title                      | Status   | File                                              |
 | --- | -------------------------- | -------- | ------------------------------------------------- |
 | 001 | Export Safari Reading List  | COMPLETE | `docs/features/001-export-safari-reading-list.md`  |
-| 002 | Reading List State Tracking | PROPOSED | `docs/features/002-reading-list-state-tracking.md` |
+| 002 | Reading List State Tracking | COMPLETE | `docs/features/002-reading-list-state-tracking.md` |
