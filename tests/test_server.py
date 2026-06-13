@@ -39,7 +39,7 @@ def test_export_reading_list_tool_success_shape(monkeypatch) -> None:
 
     assert result["success"] is True
     assert result["exported_count"] == 1
-    assert "filters_applied" in result
+    assert result["filters_applied"] == {"default_range": True}
 
 
 @pytest.mark.req("state-tracking.MCP.1")

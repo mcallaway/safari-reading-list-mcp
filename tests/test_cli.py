@@ -184,9 +184,9 @@ def test_cli_state_stats_shows_counts(tmp_path: Path) -> None:
     result = runner.invoke(cli.main, ["state", "stats", "--db-path", str(db_path)])
 
     assert result.exit_code == 0
-    assert "pending" in result.output
-    assert "1" in result.output  # added count
-    assert "skipped" in result.output
+    assert "pending    1" in result.output
+    assert "added      1" in result.output
+    assert "skipped    1" in result.output
 
 
 @pytest.mark.req("state-tracking.CLI.4")
