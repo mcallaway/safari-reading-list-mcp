@@ -16,3 +16,9 @@ Guides provide practical instructions for using, operating, and extending the pr
 - Include concrete examples and commands.
 - Keep guides synchronized with current repository behavior.
 - Prefer short sections with clear headings and actionable steps.
+
+## Guides
+
+| Guide | Description |
+|-------|-------------|
+| [`srl-usage.md`](srl-usage.md) | CLI quick reference, use cases, and configuration |
