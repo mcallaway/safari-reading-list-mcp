@@ -52,6 +52,10 @@ Conventions for specific areas are in directory-level `AGENTS.md` files. Read th
 
 ## Project-Specific Conventions
 
+- Releases:
+  - This project uses **release-please** for automated releases. Do not manually bump `version` in `pyproject.toml`, create release tags, or write `CHANGELOG.md` entries — release-please handles all of these.
+  - All commit messages **must** follow [Conventional Commits](https://www.conventionalcommits.org/): `feat:`, `fix:`, `docs:`, `chore:`, `test:`, `perf:`, `refactor:`, etc. This is enforced by release-please to determine version bumps and CHANGELOG content.
+  - `feat:` → minor bump; `fix:` → patch bump; `feat!:` or `BREAKING CHANGE:` footer → major bump.
 - Runtime and dependencies:
   - Use `uv` for dependency and execution workflows.
   - Keep Python version aligned with `pyproject.toml`, `.python-version`, and `mise.toml`.
