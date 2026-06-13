@@ -25,18 +25,23 @@ Plans are the project's GPS indicator for active and upcoming work. When complet
 
 ## Current Focus
 
-- Plan 002 active: implement reading list state tracking (SQLite, `pending`/`added`/`skipped`, `--unprocessed-only`, MCP tools).
+- No active plan. Feature 002 complete.
 
 ## Next Steps
 
-- Begin Plan 002, Phase 1: implement `safari_reading_list_mcp/state.py`.
-- Evaluate ADR need for state DB schema versioning approach.
+- Define Feature 003 or next pipeline integration as priorities emerge.
 - Consider ADR for long-term Safari integration strategy (plist-only vs multi-adapter).
+- See `tmp/pipeline-vision.md` for broader knowledge ingestion pipeline ideas.
 
 ## Recent Work
 
-- Feature 002 defined: Reading List state tracking (`pending` -> `added` | `skipped`).
-- Plan 002 written and ready for implementation.
+- Feature 002 complete: Reading List state tracking.
+  - SQLite state DB (`pending` -> `added` | `skipped`)
+  - `--unprocessed-only` flag on all export commands
+  - `srl state` CLI group: stats, list, mark
+  - MCP tools: `list_reading_list_state`, `mark_reading_list_item`
+  - 66 tests passing, pyright and ruff clean
+  - Verified against 1084-entry local Safari Reading List
 
 ## Recent Work
 

@@ -1,6 +1,6 @@
 # 002 - Reading List State Tracking
 
-Status: PROPOSED
+Status: COMPLETE
 Owner: Maintainers
 Last Updated: 2026-06-13
 
@@ -83,16 +83,16 @@ in `--unprocessed-only` export results.
 
 ## Acceptance Criteria
 
-- [ ] Export log output includes `new_to_db`, `already_added`, and `already_skipped` counts.
-- [ ] Running `srl export week` for the first time populates the state DB with URLs in `pending` state.
-- [ ] Running `srl export week --unprocessed-only` a second time returns only `pending` URLs.
-- [ ] `srl state list --status pending` shows articles awaiting processing.
-- [ ] `srl state mark --url <url> --status added` transitions the article; it no longer appears in `--unprocessed-only` exports.
-- [ ] `srl state mark --url <url> --status skipped` behaves equivalently.
-- [ ] `srl state stats` shows accurate counts per state.
-- [ ] MCP agent can call `list_reading_list_state` and `mark_reading_list_item` successfully.
-- [ ] State DB path is configurable via CLI flag or environment variable.
-- [ ] Existing export behavior (without `--unprocessed-only`) is unchanged.
+- [x] Export log output includes `new_to_db`, `already_added`, and `already_skipped` counts.
+- [x] Running `srl export week` for the first time populates the state DB with URLs in `pending` state.
+- [x] Running `srl export week --unprocessed-only` a second time returns only `pending` URLs.
+- [x] `srl state list --status pending` shows articles awaiting processing.
+- [x] `srl state mark --url <url> --status added` transitions the article; it no longer appears in `--unprocessed-only` exports.
+- [x] `srl state mark --url <url> --status skipped` behaves equivalently.
+- [x] `srl state stats` shows accurate counts per state.
+- [x] MCP agent can call `list_reading_list_state` and `mark_reading_list_item` successfully.
+- [x] State DB path is configurable via CLI flag or environment variable.
+- [x] Existing export behavior (without `--unprocessed-only`) is unchanged.
 
 ## Examples
 
