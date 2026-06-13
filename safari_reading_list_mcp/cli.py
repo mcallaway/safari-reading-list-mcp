@@ -175,22 +175,16 @@ def state_group() -> None:
 
 
 @state_group.command("stats")
-@click.option(
-    "--db-path",
-    "state_db_path",
-    default=_DEFAULT_DB_PATH,
-    envvar="SRL_STATE_DB",
-    show_default=True,
-    help="Path to the state SQLite DB.",
-)
+@_db_path_option
 def state_stats(state_db_path: str) -> None:
     """Show count of articles per state."""
+    conn = state_mod.open_db(Path(state_db_path).expanduser())
     try:
-        conn = state_mod.open_db(Path(state_db_path).expanduser())
         stats = state_mod.get_stats(conn)
-        conn.close()
     except Exception as exc:  # noqa: BLE001
         raise click.ClickException(str(exc)) from exc
+    finally:
+        conn.close()
 
     for status in ("pending", "added", "skipped"):
         click.echo(f"{status:<10} {stats[status]}")
@@ -204,22 +198,16 @@ def state_stats(state_db_path: str) -> None:
     show_default=True,
     help="Filter articles by state.",
 )
-@click.option(
-    "--db-path",
-    "state_db_path",
-    default=_DEFAULT_DB_PATH,
-    envvar="SRL_STATE_DB",
-    show_default=True,
-    help="Path to the state SQLite DB.",
-)
+@_db_path_option
 def state_list(status: str, state_db_path: str) -> None:
     """List articles by state (default: pending)."""
+    conn = state_mod.open_db(Path(state_db_path).expanduser())
     try:
-        conn = state_mod.open_db(Path(state_db_path).expanduser())
         records = state_mod.get_by_status(conn, status)  # type: ignore[arg-type]
-        conn.close()
     except Exception as exc:  # noqa: BLE001
         raise click.ClickException(str(exc)) from exc
+    finally:
+        conn.close()
 
     for record in records:
         click.echo(f"{record['status']}\t{record['url']}\t{record['first_seen_at']}")
@@ -233,26 +221,20 @@ def state_list(status: str, state_db_path: str) -> None:
     required=True,
     help="New state for the article.",
 )
-@click.option(
-    "--db-path",
-    "state_db_path",
-    default=_DEFAULT_DB_PATH,
-    envvar="SRL_STATE_DB",
-    show_default=True,
-    help="Path to the state SQLite DB.",
-)
+@_db_path_option
 def state_mark(url: str, status: str, state_db_path: str) -> None:
     """Mark a URL as added or skipped."""
+    conn = state_mod.open_db(Path(state_db_path).expanduser())
     try:
-        conn = state_mod.open_db(Path(state_db_path).expanduser())
         state_mod.mark_url(conn, url, status)  # type: ignore[arg-type]
-        conn.close()
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     except Exception as exc:  # noqa: BLE001
         raise click.ClickException(str(exc)) from exc
+    finally:
+        conn.close()
 
-    logger.info("Marked %s as %s", url, status)
+    click.echo(f"Marked {url!r} as {status}.")
 
 
 @main.command("serve")

@@ -47,12 +47,11 @@ def export_reading_list_tool(
         }
 
 
-class _StateResult(dict):  # type: ignore[type-arg]
-    """Typed return shape for state tool responses."""
-
-
 def _state_error(message: str) -> dict[str, Any]:
     return {"success": False, "error": message, "records": []}
+
+
+_VALID_STATUSES = frozenset({"pending", "added", "skipped"})
 
 
 @mcp.tool(
@@ -66,16 +65,19 @@ def list_reading_list_state_tool(
     status: str | None = None,
     state_db_path: str | None = None,
 ) -> dict[str, Any]:
+    effective_status = status or "pending"
+    if effective_status not in _VALID_STATUSES:
+        return _state_error(f"Invalid status {effective_status!r}. Must be one of: pending, added, skipped.")
     db = Path(state_db_path).expanduser() if state_db_path else DEFAULT_DB_PATH
+    conn = state_mod.open_db(db)
     try:
-        conn = state_mod.open_db(db)
-        effective_status = status or "pending"
         records: list[ArticleRecord] = state_mod.get_by_status(
             conn, effective_status  # type: ignore[arg-type]
         )
-        conn.close()
     except Exception as exc:  # noqa: BLE001
         return _state_error(str(exc))
+    finally:
+        conn.close()
     return {"success": True, "error": None, "records": records}
 
 
@@ -88,15 +90,18 @@ def mark_reading_list_item_tool(
     status: str,
     state_db_path: str | None = None,
 ) -> dict[str, Any]:
+    if status not in {"added", "skipped"}:
+        return {"success": False, "error": f"Invalid status {status!r}. Must be 'added' or 'skipped'."}
     db = Path(state_db_path).expanduser() if state_db_path else DEFAULT_DB_PATH
+    conn = state_mod.open_db(db)
     try:
-        conn = state_mod.open_db(db)
         state_mod.mark_url(conn, url, status)  # type: ignore[arg-type]
-        conn.close()
     except ValueError as exc:
         return {"success": False, "error": str(exc)}
     except Exception as exc:  # noqa: BLE001
         return {"success": False, "error": str(exc)}
+    finally:
+        conn.close()
     return {"success": True, "error": None}
 
 

@@ -108,3 +108,30 @@ def test_mark_reading_list_item_tool_unknown_url_returns_error(tmp_path: Path) -
 
     assert result["success"] is False
     assert "not found" in result["error"]
+
+
+def test_list_reading_list_state_tool_invalid_status_returns_error(tmp_path: Path) -> None:
+    db_path = tmp_path / "state.db"
+    state.open_db(db_path).close()
+
+    result = server.list_reading_list_state_tool(
+        status="done",
+        state_db_path=str(db_path),
+    )
+
+    assert result["success"] is False
+    assert "Invalid status" in result["error"]
+
+
+def test_mark_reading_list_item_tool_invalid_status_returns_error(tmp_path: Path) -> None:
+    db_path = tmp_path / "state.db"
+    state.open_db(db_path).close()
+
+    result = server.mark_reading_list_item_tool(
+        url="https://x.com",
+        status="done",
+        state_db_path=str(db_path),
+    )
+
+    assert result["success"] is False
+    assert "Invalid status" in result["error"]
