@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import pytest
 from click.testing import CliRunner
 
 from safari_reading_list_mcp import cli
@@ -130,6 +131,7 @@ def test_cli_serve_passes_transport(monkeypatch) -> None:
     assert calls == ["stdio"]
 
 
+@pytest.mark.req("state-tracking.CLI.1")
 def test_cli_export_week_passes_unprocessed_only_flag(monkeypatch) -> None:
     captured: dict[str, object] = {}
 
@@ -149,6 +151,7 @@ def test_cli_export_week_passes_unprocessed_only_flag(monkeypatch) -> None:
     assert captured.get("unprocessed_only") is True
 
 
+@pytest.mark.req("state-tracking.CLI.2")
 def test_cli_export_week_passes_db_path(monkeypatch) -> None:
     captured: dict[str, object] = {}
 
@@ -168,6 +171,7 @@ def test_cli_export_week_passes_db_path(monkeypatch) -> None:
     assert captured.get("state_db_path") == "/tmp/test.db"
 
 
+@pytest.mark.req("state-tracking.CLI.3")
 def test_cli_state_stats_shows_counts(tmp_path: Path) -> None:
     db_path = tmp_path / "state.db"
     conn = state.open_db(db_path)
@@ -185,6 +189,7 @@ def test_cli_state_stats_shows_counts(tmp_path: Path) -> None:
     assert "skipped" in result.output
 
 
+@pytest.mark.req("state-tracking.CLI.4")
 def test_cli_state_list_filters_by_status(tmp_path: Path) -> None:
     db_path = tmp_path / "state.db"
     conn = state.open_db(db_path)
@@ -202,6 +207,7 @@ def test_cli_state_list_filters_by_status(tmp_path: Path) -> None:
     assert "https://other.com" not in result.output
 
 
+@pytest.mark.req("state-tracking.CLI.5")
 def test_cli_state_mark_transitions_url(tmp_path: Path) -> None:
     db_path = tmp_path / "state.db"
     conn = state.open_db(db_path)
@@ -223,6 +229,7 @@ def test_cli_state_mark_transitions_url(tmp_path: Path) -> None:
     assert records[0]["url"] == "https://x.com"
 
 
+@pytest.mark.req("state-tracking.CLI.6")
 def test_cli_state_mark_unknown_url_exits_nonzero(tmp_path: Path) -> None:
     db_path = tmp_path / "state.db"
     state.open_db(db_path).close()

@@ -72,6 +72,7 @@ def test_export_reading_list_full_export(tmp_path) -> None:
     assert result["filters_applied"] == {"full_export": True}
 
 
+@pytest.mark.req("state-tracking.EXPORT.7")
 def test_export_without_state_db_has_zero_state_counts(tmp_path: Path) -> None:
     plist_path = tmp_path / "Bookmarks.plist"
     _write_sample_bookmarks(plist_path)
@@ -89,6 +90,7 @@ def test_export_without_state_db_has_zero_state_counts(tmp_path: Path) -> None:
     assert result["already_skipped"] == 0
 
 
+@pytest.mark.req("state-tracking.EXPORT.1", "state-tracking.EXPORT.2")
 def test_export_with_state_db_upserts_urls_as_pending(tmp_path: Path) -> None:
     plist_path = tmp_path / "Bookmarks.plist"
     _write_sample_bookmarks(plist_path)
@@ -110,6 +112,7 @@ def test_export_with_state_db_upserts_urls_as_pending(tmp_path: Path) -> None:
     assert stats["pending"] == 2
 
 
+@pytest.mark.req("state-tracking.EXPORT.3", "state-tracking.EXPORT.4")
 def test_export_state_counts_already_added_and_skipped(tmp_path: Path) -> None:
     plist_path = tmp_path / "Bookmarks.plist"
     _write_sample_bookmarks(plist_path)
@@ -136,6 +139,7 @@ def test_export_state_counts_already_added_and_skipped(tmp_path: Path) -> None:
     assert result["already_skipped"] == 1
 
 
+@pytest.mark.req("state-tracking.EXPORT.5")
 def test_export_unprocessed_only_excludes_terminal_items(tmp_path: Path) -> None:
     plist_path = tmp_path / "Bookmarks.plist"
     _write_sample_bookmarks(plist_path)
@@ -161,6 +165,7 @@ def test_export_unprocessed_only_excludes_terminal_items(tmp_path: Path) -> None
     assert result["total_count"] == 2
 
 
+@pytest.mark.req("state-tracking.EXPORT.6")
 def test_export_unprocessed_only_without_state_db_raises(tmp_path: Path) -> None:
     plist_path = tmp_path / "Bookmarks.plist"
     _write_sample_bookmarks(plist_path)

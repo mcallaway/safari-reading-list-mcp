@@ -1,0 +1,52 @@
+feature:
+  id: "002"
+  name: state-tracking
+
+components:
+  DB:
+    name: State database
+    requirements:
+      1: Creates DB file at specified path, including parent directories
+      2: Bootstraps articles table with status constraint at schema version 1
+      3: Raises RuntimeError on unsupported schema version
+
+  STATE:
+    name: Article state transitions
+    requirements:
+      1: Inserts new URLs as pending, returns count of new rows only
+      2: Does not downgrade state from added or skipped to pending
+      3: Filters URLs to those not in a terminal state (added or skipped)
+      4: Counts URLs matching a given status among a provided list
+      5: Transitions URL to added or skipped
+      6: Raises ValueError when marking an unknown URL
+      7: Returns all articles matching a given status
+      8: Returns accurate count per status including zero for empty states
+
+  EXPORT:
+    name: Export service integration
+    requirements:
+      1: Upserts all exported URLs as pending in state DB
+      2: Reports count of newly inserted URLs (new_to_db) in export result
+      3: Reports count of already-added URLs among export candidates
+      4: Reports count of already-skipped URLs among export candidates
+      5: Filters export output to pending items when unprocessed_only is True
+      6: Raises ValueError when unprocessed_only is True but no state_db_path given
+      7: Returns zero state counts when no state DB is provided
+
+  CLI:
+    name: CLI commands
+    requirements:
+      1: Export commands accept --unprocessed-only flag
+      2: Export commands accept --db-path option and SRL_STATE_DB env var
+      3: srl state stats shows count per state
+      4: srl state list filters articles by status
+      5: srl state mark transitions a URL to added or skipped
+      6: srl state mark exits nonzero for unknown URL
+
+  MCP:
+    name: MCP server tools
+    requirements:
+      1: list_reading_list_state returns articles filtered by status
+      2: list_reading_list_state returns all pending articles when no status given
+      3: mark_reading_list_item transitions a URL to added or skipped
+      4: mark_reading_list_item returns error response for unknown URL

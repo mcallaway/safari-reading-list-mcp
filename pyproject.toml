@@ -21,14 +21,20 @@ include = ["safari_reading_list_mcp*"]
 
 [dependency-groups]
 dev = [
+    "pyright>=1.1.0",
     "pytest>=9.0.2",
     "pytest-cov>=7.1.0",
+    "pytest-feature-coverage @ git+https://github.com/mcallaway/pytest-feature-coverage.git@0.1.1",
     "ruff>=0.15.9",
 ]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+feature_yaml_paths = ["features"]
 
 [tool.uv]
 package = true
+
+[tool.uv.sources]
+pytest-feature-coverage = { git = "https://github.com/mcallaway/pytest-feature-coverage.git", rev = "0.1.1" }

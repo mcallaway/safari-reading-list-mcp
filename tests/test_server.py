@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import pytest
+
 from safari_reading_list_mcp import server
 from safari_reading_list_mcp import state
 
@@ -40,6 +42,7 @@ def test_export_reading_list_tool_success_shape(monkeypatch) -> None:
     assert "filters_applied" in result
 
 
+@pytest.mark.req("state-tracking.MCP.1")
 def test_list_reading_list_state_tool_returns_records(tmp_path: Path) -> None:
     db_path = tmp_path / "state.db"
     conn = state.open_db(db_path)
@@ -58,6 +61,7 @@ def test_list_reading_list_state_tool_returns_records(tmp_path: Path) -> None:
     assert result["records"][0]["status"] == "pending"
 
 
+@pytest.mark.req("state-tracking.MCP.2")
 def test_list_reading_list_state_tool_all_statuses(tmp_path: Path) -> None:
     db_path = tmp_path / "state.db"
     conn = state.open_db(db_path)
@@ -70,6 +74,7 @@ def test_list_reading_list_state_tool_all_statuses(tmp_path: Path) -> None:
     assert len(result["records"]) == 2
 
 
+@pytest.mark.req("state-tracking.MCP.3")
 def test_mark_reading_list_item_tool_transitions_state(tmp_path: Path) -> None:
     db_path = tmp_path / "state.db"
     conn = state.open_db(db_path)
@@ -90,6 +95,7 @@ def test_mark_reading_list_item_tool_transitions_state(tmp_path: Path) -> None:
     assert len(records) == 1
 
 
+@pytest.mark.req("state-tracking.MCP.4")
 def test_mark_reading_list_item_tool_unknown_url_returns_error(tmp_path: Path) -> None:
     db_path = tmp_path / "state.db"
     state.open_db(db_path).close()
