@@ -1,7 +1,5 @@
 from pathlib import Path
 
-import sqlite3
-
 from click.testing import CliRunner
 
 from safari_reading_list_mcp import cli
