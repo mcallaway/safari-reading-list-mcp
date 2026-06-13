@@ -25,14 +25,18 @@ Plans are the project's GPS indicator for active and upcoming work. When complet
 
 ## Current Focus
 
-- Define Feature 002 scope (for example, adding Reading List entries via MCP).
-- Decide whether Safari integration should expand beyond plist reading in the next increment.
+- Plan 002 active: implement reading list state tracking (SQLite, `pending`/`added`/`skipped`, `--unprocessed-only`, MCP tools).
 
 ## Next Steps
 
-- Create Feature 002 proposal for writing/adding Reading List entries.
-- Create Plan 002 with phased implementation for add-item workflow.
-- Evaluate ADR need for long-term Safari integration strategy (plist-only vs multi-adapter).
+- Begin Plan 002, Phase 1: implement `safari_reading_list_mcp/state.py`.
+- Evaluate ADR need for state DB schema versioning approach.
+- Consider ADR for long-term Safari integration strategy (plist-only vs multi-adapter).
+
+## Recent Work
+
+- Feature 002 defined: Reading List state tracking (`pending` -> `added` | `skipped`).
+- Plan 002 written and ready for implementation.
 
 ## Recent Work
 
